@@ -1,0 +1,17 @@
+{
+  "name": "sumonselim/php-ecommerce",
+  "description": "A basic e-commerce project using PHP",
+  "type": "project",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Muhammad Sumon Molla Selim",
+      "email": "me@sumonselim.com"
+    }
+  ],
+  "require": {
+  },
+  "psr-4": {
+    "App\\": "app/"
+  }
+}
