@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once '../app/Database.php';
+require_once '../vendor/autoload.php';
 $messages = [];
 
 if (isset($_POST['register'])) {
@@ -16,6 +17,16 @@ if (isset($_POST['register'])) {
     ]);
 
     if ($result) {
+        // Mail
+        $transport = (new Swift_SmtpTransport('smtp.mailtrap.io', 25))->setUsername('da24cc67e9bb79')->setPassword('dc5778bc9b1351');
+
+        // Create the Mailer using your created Transport
+        $mailer = new Swift_Mailer($transport);
+
+        $message = (new Swift_Message('Registration successful'))->setFrom(['no-reply@php-ecommerce.sumon' => 'PHP Project System'])->setTo([$email => $username])->setBody('Your account is registered. Please visit the following link to login.');
+
+        $mailer->send($message);
+
         $messages['success'] = 'Registration successful';
     }
 }
