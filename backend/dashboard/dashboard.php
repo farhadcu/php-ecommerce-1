@@ -1,13 +1,10 @@
 <?php
-session_start();
-require_once '../app/Database.php';
-$messages = [];
-include_once 'partials/header.php';
+include_once '../partials/header.php';
 ?>
 
 <div class="container-fluid">
     <div class="row">
-        <?php include_once 'partials/sidebar.php'; ?>
+        <?php include_once '../partials/sidebar.php'; ?>
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
@@ -201,7 +198,7 @@ include_once 'partials/header.php';
         }
     });
 </script>
-<?php include_once 'partials/footer.php'; ?>
+<?php include_once '../partials/footer.php'; ?>
 
 
 

@@ -1,7 +1,7 @@
 <?php
 session_start();
-require_once '../app/Database.php';
-require_once '../vendor/autoload.php';
+require_once '../../app/Database.php';
+require_once '../../vendor/autoload.php';
 $messages = [];
 
 if (isset($_POST['register'])) {
@@ -17,13 +17,46 @@ if (isset($_POST['register'])) {
     ]);
 
     if ($result) {
+        // Generate PDF
+        try {
+            $mpdf = new \Mpdf\Mpdf();
+        } catch (\Mpdf\MpdfException $e) {
+        }
+
+        ob_start();
+        echo '<h1>Your account is created</h1>';
+        echo '<p>Email: '.$email.'</p>';
+        echo '<p>Username: '.$username.'</p>';
+        echo '<p>Mobile Number: '.$mobile_number.'</p>';
+        echo '<br/>';
+        $html = ob_get_contents();
+        ob_end_clean();
+
+        try {
+            $mpdf->WriteHTML(utf8_encode($html));
+        } catch (\Mpdf\MpdfException $e) {
+        }
+
+        try {
+            $content = $mpdf->Output('', 'S');
+        } catch (\Mpdf\MpdfException $e) {
+        }
+
+        $attachment = new Swift_Attachment($content, $username.'.pdf', 'application/pdf');
+
         // Mail
-        $transport = (new Swift_SmtpTransport('smtp.mailtrap.io', 25))->setUsername('da24cc67e9bb79')->setPassword('dc5778bc9b1351');
+        $transport = (new Swift_SmtpTransport('smtp.mailtrap.io', 25))
+            ->setUsername('da24cc67e9bb79')
+            ->setPassword('dc5778bc9b1351');
 
         // Create the Mailer using your created Transport
         $mailer = new Swift_Mailer($transport);
 
-        $message = (new Swift_Message('Registration successful'))->setFrom(['no-reply@php-ecommerce.sumon' => 'PHP Project System'])->setTo([$email => $username])->setBody('Your account is registered. Please visit the following link to login.');
+        $message = (new Swift_Message('Registration successful'))
+            ->setFrom(['no-reply@php-ecommerce.sumon' => 'PHP Project System'])
+            ->setTo([$email => $username])
+            ->setBody('Your account is registered. Please visit the following link to login.')
+            ->attach($attachment);
 
         $mailer->send($message);
 
@@ -41,15 +74,15 @@ if (isset($_POST['register'])) {
     <title>PHP Ecommerce Admin</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="assets/css/login.css" rel="stylesheet">
+    <link href="../assets/css/login.css" rel="stylesheet">
 </head>
 
 <body>
 <form class="form-signin" action="" method="post">
-    <?php include_once 'partials/message.php'; ?>
+    <?php include_once '../partials/message.php'; ?>
 
     <div class="text-center mb-4">
         <h1 class="h3 mb-3 font-weight-normal">PHP Ecommerce Admin Panel</h1>

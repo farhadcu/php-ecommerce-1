@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '../app/Database.php';
+require_once '../../app/Database.php';
 $messages = [];
 
 if (isset($_POST['login'])) {
@@ -38,16 +38,16 @@ if (isset($_POST['login'])) {
     <title>PHP Ecommerce Admin</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="assets/css/login.css" rel="stylesheet">
+    <link href="../assets/css/login.css" rel="stylesheet">
 </head>
 
 <body>
 
 <form class="form-signin" action="" method="post">
-    <?php include_once 'partials/message.php'; ?>
+    <?php include_once '../partials/message.php'; ?>
 
     <div class="text-center mb-4">
         <h1 class="h3 mb-3 font-weight-normal">PHP Ecommerce Admin Panel</h1>
