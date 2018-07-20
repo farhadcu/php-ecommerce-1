@@ -1,10 +1,5 @@
 <?php
 include_once '../partials/header.php';
-
-$result = $connection->select('roles');
-$result->execute();
-
-$roles = $result->fetchAll();
 ?>
 
 <div class="container-fluid">
@@ -44,20 +39,6 @@ $roles = $result->fetchAll();
                     </tr>
                     </thead>
                     <tbody>
-                    <?php foreach ($roles as $role) { ?>
-                        <tr>
-                            <td><?php echo $role['id']; ?></td>
-                            <td><?php echo $role['name']; ?></td>
-                            <td>
-                                <a href="<?php echo $site_url; ?>/roles/edit.php" class="btn btn-sm btn-info">
-                                    Edit
-                                </a>
-                                <a href="<?php echo $site_url; ?>/roles/delete.php" class="btn btn-sm btn-danger">
-                                    Delete
-                                </a>
-                            </td>
-                        </tr>
-                    <?php } ?>
                     </tbody>
                 </table>
             </div>
@@ -65,7 +46,21 @@ $roles = $result->fetchAll();
     </div>
 </div>
 
+<?php include '../partials/datatable.php'; ?>
+
 <script>
+    $(document).ready(function () {
+        $('#datatable').DataTable({
+            dom: 'Bfrtip',
+            serverSide: true,
+            ajax: 'http://php-ecommerce.sumon/backend/roles/json.php',
+            pageLength: 5,
+            buttons: [
+                'csv', 'pdf', 'print'
+            ]
+        });
+    });
+
     let button = document.getElementById('button');
 
     button.addEventListener('click', function (e) {

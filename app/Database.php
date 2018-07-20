@@ -9,6 +9,7 @@ class Database
     public function __construct($dsn, $username, $password)
     {
         $this->connection = new PDO($dsn, $username, $password);
+        $this->connection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
     }
 
     public function connection()
